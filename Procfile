@@ -1,1 +1,1 @@
-web gunicorn Itami.wsgi:application --log-file -
+web gunicorn Itami.wsgi

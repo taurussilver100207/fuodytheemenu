@@ -1,0 +1,101 @@
+{% extends 'chat/base.html' %}
+{% load static %}
+{% block title %}Chat rooms{% endblock title %}
+
+{% block content %}
+
+
+
+
+
+
+
+
+     <div class="container mx-auto shadow-lg rounded-lg">
+      <!-- headaer -->
+  <div class="px-5 py-5 flex justify-between items-center bg-white border-b-2">
+    <div class="font-semibold text-2xl">Fuody Chat</div>
+    <div class="w-1/2">
+      <input
+        type="text"
+        name=""
+        id=""
+        placeholder="search IRL"
+        class="rounded-2xl bg-gray-100 py-3 px-5 w-full"
+      />
+    </div>
+    <div
+      class="h-12 w-12 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center"
+    >
+      RA
+    </div>
+  </div>
+  <!-- end header -->
+  <!-- Chatting -->
+  <div class="flex flex-row justify-between bg-white">
+    <!-- chat list -->
+    <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+      <!-- end search compt -->
+      <!-- user list -->
+{% for chatroom in rooms %}
+      {% if user in chatroom.members.all %}
+      <a href="{% url 'room' chatroom.name %}">
+         <div class="flex flex-row py-4 px-2 items-center border-b-2">
+            <div class="w-1/4">
+               {% for userprofile in userprofiles %}
+                  {% for chater in chatroom.members.all %}
+                     {% if chater != user %}
+                        {% if chater == userprofile.user %}
+                        <img
+                        src="{{userprofile.avatar.url}}"
+                        class="object-cover h-12 w-12 rounded-full"
+                        alt=""
+                        />
+                        {% endif %}
+                     {% endif %}
+                  {% endfor %}
+               {% endfor %}
+            </div>
+                  <div class="w-full">
+                     <div class="text-lg font-semibold">
+                        {% for chater in chatroom.members.all %}
+                           {% if chater != user %}
+                              {{chater.first_name}} {{chater.last_name}}
+                           {% endif %}
+                        {% endfor %}
+                     </div>
+                  </div>
+          </div>
+       </div>
+
+      </a>
+    {% endif %}
+{% endfor %}
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {{ room_name|json_script:"room-name" }}
+    {{ request.user.id|json_script:"user_id" }}
+    <script src="{% static 'js/room.js' %}"></script>
+    <script>
+        const el = document.getElementById('messages')
+        el.scrollTop = el.scrollHeight
+    </script>
+{% endblock  %}

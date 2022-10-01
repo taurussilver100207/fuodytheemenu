@@ -1,0 +1,78 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{shop.name}}'s orders{% endblock %}
+
+{% block content %}
+
+
+<div class="overflow-x-auto relative">
+    <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Product name
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Price
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Customer
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Order id
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Date
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    State
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                {% if order.accesory.shop == shop and order.accesory.shop.user == user %}
+                    <tr class="bg-white border-b">
+                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                            {{order.accesory.name}}
+                        </th>
+                        <td class="py-4 px-6">
+                            {{order.price}} VND
+                        </td>
+                        <td class="py-4 px-6">
+                            {{order.user}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{order.num}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{order.date}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{order.state}}
+                        </td>
+                        
+                        <td class="py-4 px-6">
+                            <div class="grid grid-cols-1">
+                                {% if order.state == "Waiting" %}
+                                    <a href="{% url 'confirm_order' order.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Confirm</a>
+                                    <a href="{% url 'delete_order' order.id %}" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
+                                {% elif order.state == "Working" %}
+                                    <a href="{% url 'finished_order' order.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Finish</a>
+                                {% elif order.state == "Done" %}
+                                    User confirmation: {{order.userconfirm}}  
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

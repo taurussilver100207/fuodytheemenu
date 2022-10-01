@@ -1,0 +1,77 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block title %}{{user.first_name}} {{user.last_name}}'s orders{% endblock %}
+
+{% block content %}
+
+{% if userprofile.usertype == "Customer" %}
+<div class="overflow-x-auto relative">
+    <table class="w-full text-sm text-left text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Product name
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Price
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Shop
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Order id
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Date
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    State
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                {% if order.user == user %}
+                    <tr class="bg-white border-b">
+                        <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                            {{order.accesory.name}}
+                        </th>
+                        <td class="py-4 px-6">
+                            {{order.price}} VND
+                        </td>
+                        <td class="py-4 px-6">
+                            {{order.accesory.shop}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{order.num}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{order.date}}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{order.state}}
+                        </td>
+                        
+                        <td class="py-4 px-6">
+                            {% if order.state == "Done" %}
+                                {% if order.userconfirm == "Done" %}
+                                    Your order is finished
+                                {% else %}
+                                    <a href="{% url 'confirm_order_done' order.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Confirm</a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endif %}
+
+{% endblock %}

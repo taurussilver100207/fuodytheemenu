@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/fuody-favicon.png' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <title>{% block title %}{% endblock  %}</title>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .input-container {
+                display: -ms-flexbox;
+                display: flex;
+                width: 100%;
+            }
+            .icon {
+                padding: 15px;
+                color: #000;
+                min-width: 50px;
+                text-align: center;
+                height: 46px;
+                border-left: none
+            }
+            .border-r-none {
+                border-right: none
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {% block content %}
+    
+    {% endblock  %}
+    <script src="{% static 'js/auth.js' %}"></script>
+</body>
+</html>
